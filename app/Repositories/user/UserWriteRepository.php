@@ -3,7 +3,7 @@
 namespace App\Repositories\user;
 
 use App\Models\User;
-use Mockery\Exception;
+use App\Exceptions\SavingErrorException;
 
 class UserWriteRepository implements UserWriteRepositoryInterface
 {
@@ -11,7 +11,7 @@ class UserWriteRepository implements UserWriteRepositoryInterface
     {
         if(!$user->save())
         {
-            throw new Exception("Registration has been failed!!!");
+            throw new SavingErrorException();
         }
 
         return $user;

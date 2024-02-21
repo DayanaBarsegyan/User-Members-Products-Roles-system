@@ -11,7 +11,7 @@ class CreateRequest extends AbstractMemberRequest
     public function rules(): array
     {
         return [
-            self::ROLEsdbvkjbvsbvk => [
+            self::ROLE => [
                 'required',
                 'string'
             ]

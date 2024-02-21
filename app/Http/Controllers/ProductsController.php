@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Collection;
 use App\Http\Requests\products\CreateRequest;
 use App\Http\Requests\products\UpdateRequest;
 use App\Services\Action\products\IndexAction;
@@ -11,6 +10,7 @@ use App\Services\Action\products\CreateAction;
 use App\Services\Action\products\DeleteAction;
 use App\Services\DTO\products\CreateRequestDTO;
 use App\Services\DTO\products\UpdateRequestDTO;
+use App\Http\Resources\product\ProductResourceCollection;
 
 class ProductsController extends Controller
 {
@@ -38,8 +38,10 @@ class ProductsController extends Controller
         return $this->updateAction->run($dto);
     }
 
-    public function index():Collection
+    public function index():ProductResourceCollection
     {
-        return $this->indexAction->run();
+        $data = $this->indexAction->run();
+
+        return new ProductResourceCollection($data);
     }
 }
