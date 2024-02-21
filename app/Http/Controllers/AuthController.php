@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Http\Resources\UserResource;
+
 use App\Http\Requests\LoginRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Action\LoginAction;
 use App\Services\Action\RegisterAction;
@@ -18,11 +20,13 @@ class AuthController extends Controller
         public LoginAction $loginAction
     ) {}
 
-    public function register(RegisterRequest $registerRequest): User
+    public function register(RegisterRequest $registerRequest): UserResource
     {
         $dto = RegisterRequestDTO::fromRequest($registerRequest);
 
-        return $this->registerAction->run($dto);
+        $user = $this->registerAction->run($dto);
+
+        return new UserResource($user);
     }
 
     public function login(LoginRequest $loginRequest): bool

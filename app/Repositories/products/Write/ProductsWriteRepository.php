@@ -2,8 +2,8 @@
 
 namespace App\Repositories\products\Write;
 
-use Mockery\Exception;
 use App\Models\Product;
+use App\Exceptions\SavingErrorException;
 use App\Services\DTO\products\UpdateRequestDTO;
 
 class ProductsWriteRepository implements ProductsWriteRepositoryInterface
@@ -12,7 +12,7 @@ class ProductsWriteRepository implements ProductsWriteRepositoryInterface
     {
         if(!$product->save())
         {
-            throw new Exception("Product has not been saved!!!");
+            throw new SavingErrorException();
         }
     }
 

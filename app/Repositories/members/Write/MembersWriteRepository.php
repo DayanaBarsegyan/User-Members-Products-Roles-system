@@ -2,6 +2,7 @@
 
 namespace App\Repositories\members\Write;
 
+use App\Exceptions\SavingErrorException;
 use Exception;
 use App\Models\Member;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,7 +19,7 @@ class MembersWriteRepository implements MembersWriteRepositoryInterface
     {
         if(!$member->save())
         {
-            throw new Exception("Member has not been saved!!!");
+            throw new SavingErrorException();
         }
 
         return $member;

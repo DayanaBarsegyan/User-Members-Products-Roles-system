@@ -2,9 +2,10 @@
 
 namespace App\Repositories\roles\Write;
 
-use Exception;
 use App\Models\Role;
+use App\Exceptions\SavingErrorException;
 use Illuminate\Database\Eloquent\Builder;
+use App\Exceptions\AlreadyExistsException;
 
 class RolesWriteRepository implements RolesWriteRepositoryInterface
 {
@@ -16,7 +17,7 @@ class RolesWriteRepository implements RolesWriteRepositoryInterface
     public function save(Role $role): Role
     {
         if(!$role->save()) {
-            throw new Exception("Role has not been saved!!!");
+            throw new SavingErrorException();
         }
 
         return $role;
@@ -38,7 +39,7 @@ class RolesWriteRepository implements RolesWriteRepositoryInterface
         $existingRole = $this->query()->where('role', $role)->first();
 
         if($existingRole) {
-            throw new Exception('Role already exists in role table!!!');
+            throw new AlreadyExistsException();
         }
 
         return $this->query()->find($id)->update(['role' => $role]);

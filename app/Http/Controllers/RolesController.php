@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\Model;
+use App\Http\Resources\role\RoleResource;
 use App\Http\Requests\roles\CreateRequest;
 use App\Services\Action\roles\IndexAction;
 use App\Http\Requests\roles\UpdateRequest;
 use App\Services\Action\roles\UpdateAction;
 use App\Services\Action\roles\CreateAction;
 use App\Services\Action\roles\DeleteAction;
+use App\Http\Resources\role\RoleResourceCollection;
 
 class RolesController extends Controller
 {
@@ -20,14 +20,15 @@ class RolesController extends Controller
         public UpdateAction $updateAction
     ) {}
 
-    public function create(CreateRequest $createRequest): Model
+    public function create(CreateRequest $createRequest): RoleResource
     {
-        return $this->createAction->run($createRequest->getRole(), $createRequest->getParentId());
+        $role = $this->createAction->run($createRequest->getRole(), $createRequest->getParentId());
+        return new RoleResource($role);
     }
 
-    public function index(): Collection
+    public function index(): RoleResourceCollection
     {
-        return $this->indexAction->run();
+        return new RoleResourceCollection($this->indexAction->run());
     }
 
     public function delete(int $id): bool
