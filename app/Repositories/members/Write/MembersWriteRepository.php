@@ -2,10 +2,10 @@
 
 namespace App\Repositories\members\Write;
 
-use App\Exceptions\SavingErrorException;
-use Exception;
 use App\Models\Member;
+use App\Exceptions\SavingErrorException;
 use Illuminate\Database\Eloquent\Builder;
+use App\Exceptions\DeletingErrorException;
 use App\Services\DTO\members\UpdateRequestDTO;
 
 class MembersWriteRepository implements MembersWriteRepositoryInterface
@@ -30,13 +30,13 @@ class MembersWriteRepository implements MembersWriteRepositoryInterface
         $member = $this->query()->where('id', $id)->first();
 
         if(!$member->delete()) {
-            return false;
+            throw new DeletingErrorException();
         }
 
         return true;
     }
 
-    public function update(UpdateRequestDTO $dto, int $roleId):bool
+    public function update(UpdateRequestDTO $dto, int $roleId): bool
     {
         $member = Member::query()->where('id', $dto->id)->firstOrFail();
 

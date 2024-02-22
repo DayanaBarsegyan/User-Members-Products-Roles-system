@@ -13,6 +13,7 @@ use App\Services\Action\members\UpdateAction;
 use App\Services\DTO\members\CreateRequestDTO;
 use App\Services\DTO\members\UpdateRequestDTO;
 use App\Http\Resources\member\MemberResourceCollection;
+use Illuminate\Http\JsonResponse;
 
 class MembersController extends Controller
 {
@@ -43,9 +44,7 @@ class MembersController extends Controller
     {
         $dto = UpdateRequestDTO::fromRequest($updateRequest);
 
-        $data = $this->updateAction->run($dto);
-
-        return $data;
+        return $this->updateAction->run($dto);
     }
 
     public function delete(int $id): bool

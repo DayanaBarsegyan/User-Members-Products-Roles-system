@@ -4,6 +4,7 @@ namespace App\Repositories\products\Write;
 
 use App\Models\Product;
 use App\Exceptions\SavingErrorException;
+use App\Exceptions\DeletingErrorException;
 use App\Services\DTO\products\UpdateRequestDTO;
 
 class ProductsWriteRepository implements ProductsWriteRepositoryInterface
@@ -20,7 +21,7 @@ class ProductsWriteRepository implements ProductsWriteRepositoryInterface
     {
         if(!$product->delete())
         {
-            return false;
+            throw new DeletingErrorException();
         }
 
         return true;
@@ -32,7 +33,7 @@ class ProductsWriteRepository implements ProductsWriteRepositoryInterface
 
         if (!$product->delete())
         {
-            return false;
+            throw new DeletingErrorException();
         }
 
         return true;

@@ -3,6 +3,7 @@
 namespace App\Repositories\roles\Write;
 
 use App\Models\Role;
+use App\Exceptions\DeletingErrorException;
 use App\Exceptions\SavingErrorException;
 use Illuminate\Database\Eloquent\Builder;
 use App\Exceptions\AlreadyExistsException;
@@ -28,7 +29,7 @@ class RolesWriteRepository implements RolesWriteRepositoryInterface
         $findRole = $this->query()->where('id', $id);
 
         if(!$findRole->delete()) {
-            return false;
+            throw new DeletingErrorException();
         }
 
         return true;
