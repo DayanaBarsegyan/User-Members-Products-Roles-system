@@ -13,9 +13,10 @@ class UpdateAction
         private MembersWriteRepositoryInterface $membersWriteRepository,
     ){}
 
-    public function run(UpdateRequestDTO $dto):bool
+    public function run(UpdateRequestDTO $dto): bool
     {
         $memberRole = $this->roleCreateUseCase->run($dto->role, $dto->parentId);
+
         return $this->membersWriteRepository->update($dto, $memberRole->id);
     }
 }

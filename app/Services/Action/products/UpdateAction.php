@@ -2,7 +2,7 @@
 
 namespace App\Services\Action\products;
 
-use Exception;
+use App\Exceptions\AlreadyExistsException;
 use App\Services\DTO\products\UpdateRequestDTO;
 use App\Repositories\products\Read\ProductsReadRepositoryInterface;
 use App\Repositories\products\Write\ProductsWriteRepositoryInterface;
@@ -21,7 +21,7 @@ class UpdateAction
 
         if($product)
         {
-            throw new Exception("Product already exists in products table!!!");
+            throw new AlreadyExistsException();
         }
 
         return $this->productsWriteRepository->update($dto);

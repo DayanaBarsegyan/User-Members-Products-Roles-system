@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Http\Resources\UserResource;
+
+use Illuminate\Http\JsonResponse;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Action\LoginAction;
@@ -18,22 +20,26 @@ class AuthController extends Controller
         public LoginAction $loginAction
     ) {}
 
-    public function register(RegisterRequest $registerRequest): User
+    public function register(RegisterRequest $registerRequest): UserResource
     {
         $dto = RegisterRequestDTO::fromRequest($registerRequest);
 
-        return $this->registerAction->run($dto);
+        $user = $this->registerAction->run($dto);
+
+        return new UserResource($user);
     }
 
-    public function login(LoginRequest $loginRequest): bool
+    public function login(LoginRequest $loginRequest): JsonResponse
     {
-        return $this->loginAction->run($loginRequest->getEmail(), $loginRequest->getPassword());
+        $this->loginAction->run($loginRequest->getEmail(), $loginRequest->getPassword());
+
+        return response()->json(['status' => 'success']);
     }
 
-    public function logout(): string
+    public function logout(): JsonResponse
     {
         Auth::logout();
 
-        return 'User successfully logged out!!!';
+        return response()->json(['message' => 'User successfully logged out!!!']);
     }
 }

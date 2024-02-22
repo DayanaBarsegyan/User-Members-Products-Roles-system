@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\IndexRequest;
 use App\Http\Requests\members\CreateRequest;
 use App\Http\Requests\members\UpdateRequest;
+use App\Services\Action\members\IndexAction;
+use App\Http\Resources\member\MemberResource;
 use App\Services\Action\members\CreateAction;
 use App\Services\Action\members\DeleteAction;
-use App\Services\Action\members\IndexAction;
 use App\Services\Action\members\UpdateAction;
 use App\Services\DTO\members\CreateRequestDTO;
 use App\Services\DTO\members\UpdateRequestDTO;
+use App\Http\Resources\member\MemberResourceCollection;
+use Illuminate\Http\JsonResponse;
 
 class MembersController extends Controller
 {
@@ -23,29 +24,27 @@ class MembersController extends Controller
         public DeleteAction  $deleteAction
     ) {}
 
-    public function create(CreateRequest $createRequest): JsonResponse
+    public function create(CreateRequest $createRequest): MemberResource
     {
         $dto = CreateRequestDTO::fromRequest($createRequest);
 
         $data = $this->createAction->run($dto);
 
-        return response()->json($data);
+        return new MemberResource($data);
     }
 
-    public function index(IndexRequest $indexRequest): JsonResponse
+    public function index(IndexRequest $indexRequest): MemberResourceCollection
     {
         $data = $this->indexAction->run($indexRequest->getParentId());
 
-        return response()->json($data);
+        return new MemberResourceCollection($data);
     }
 
-    public function update(UpdateRequest $updateRequest): JsonResponse
+    public function update(UpdateRequest $updateRequest): bool
     {
         $dto = UpdateRequestDTO::fromRequest($updateRequest);
 
-        $data = $this->updateAction->run($dto);
-
-        return response()->json($data);
+        return $this->updateAction->run($dto);
     }
 
     public function delete(int $id): bool

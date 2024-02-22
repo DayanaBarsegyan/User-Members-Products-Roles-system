@@ -3,6 +3,7 @@
 namespace App\Repositories\users_products\Write;
 
 use App\Models\UserProduct;
+use App\Exceptions\SavingErrorException;
 
 class UsersProductsWriteRepository implements UsersProductsWriteRepositoryInterface
 {
@@ -10,7 +11,7 @@ class UsersProductsWriteRepository implements UsersProductsWriteRepositoryInterf
     {
         if(!$userProduct->save())
         {
-            return false;
+            throw new SavingErrorException();
         }
 
         return true;

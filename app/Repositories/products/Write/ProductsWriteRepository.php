@@ -2,8 +2,9 @@
 
 namespace App\Repositories\products\Write;
 
-use Mockery\Exception;
 use App\Models\Product;
+use App\Exceptions\SavingErrorException;
+use App\Exceptions\DeletingErrorException;
 use App\Services\DTO\products\UpdateRequestDTO;
 
 class ProductsWriteRepository implements ProductsWriteRepositoryInterface
@@ -12,7 +13,7 @@ class ProductsWriteRepository implements ProductsWriteRepositoryInterface
     {
         if(!$product->save())
         {
-            throw new Exception("Product has not been saved!!!");
+            throw new SavingErrorException();
         }
     }
 
@@ -20,7 +21,7 @@ class ProductsWriteRepository implements ProductsWriteRepositoryInterface
     {
         if(!$product->delete())
         {
-            return false;
+            throw new DeletingErrorException();
         }
 
         return true;
@@ -32,7 +33,7 @@ class ProductsWriteRepository implements ProductsWriteRepositoryInterface
 
         if (!$product->delete())
         {
-            return false;
+            throw new DeletingErrorException();
         }
 
         return true;

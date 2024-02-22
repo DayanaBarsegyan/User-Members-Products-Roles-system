@@ -19,7 +19,7 @@ class CreateAction
      * @throws Exception
      */
 
-    public function run(CreateRequestDTO $dto):Model
+    public function run(CreateRequestDTO $dto):Member
     {
         $role = $this->roleCreateUseCase->run($dto->role, $dto->parentId);
 
