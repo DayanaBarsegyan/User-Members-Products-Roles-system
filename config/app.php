@@ -173,6 +173,7 @@ return [
         App\Providers\ProductServiceProvider::class,
         App\Providers\UserProductServiceProvider::class,
         App\Providers\UserServiceProvider::class,
+        App\Providers\TokenServiceProvider::class,
     ])->toArray(),
 
     /*

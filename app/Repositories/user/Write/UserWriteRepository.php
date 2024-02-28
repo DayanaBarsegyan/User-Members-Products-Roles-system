@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories\user;
+namespace App\Repositories\user\Write;
 
-use App\Models\User;
 use App\Exceptions\SavingErrorException;
+use App\Models\User;
 
 class UserWriteRepository implements UserWriteRepositoryInterface
 {
@@ -15,5 +15,10 @@ class UserWriteRepository implements UserWriteRepositoryInterface
         }
 
         return $user;
+    }
+
+    public function updatePassword(User $user, string $password): bool
+    {
+        return $user->update(['password' => $password]);
     }
 }

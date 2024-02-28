@@ -2,8 +2,6 @@
 
 namespace App\Exceptions;
 
-use Exception;
-
 class DeletingErrorException extends BusinessLogicException
 {
     public function getStatus(): int

@@ -25,6 +25,7 @@ class DeleteAction
             foreach ($updatedMembers as $updateMember)
             {
                 $this->membersWriteRepository->deleteMemberRole($updateMember);
+                $this->membersWriteRepository->save($updateMember);
             }
 
             return true;

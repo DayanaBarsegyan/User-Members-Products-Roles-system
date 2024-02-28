@@ -3,7 +3,6 @@
 namespace App\Exceptions;
 
 use Exception;
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 abstract class BusinessLogicException extends Exception
 {

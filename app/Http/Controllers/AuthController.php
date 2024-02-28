@@ -2,22 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\UserResource;
-
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\LoginRequest;
-use Illuminate\Support\Facades\Auth;
 use App\Services\Action\LoginAction;
+use App\Http\Resources\UserResource;
+use App\Services\Action\LogoutAction;
+use App\Http\Resources\LoginResource;
+use App\Services\DTO\ResetPasswordDTO;
 use App\Services\Action\RegisterAction;
 use App\Services\DTO\RegisterRequestDTO;
+use App\Http\Requests\ResetPasswordRequest;
+use App\Services\Action\ResetPasswordAction;
+use App\Http\Requests\RecoverPasswordRequest;
+use App\Services\Action\RecoverPasswordAction;
 use App\Http\Requests\members\RegisterRequest;
+
 
 class AuthController extends Controller
 
 {
     public function __construct(
         public RegisterAction $registerAction,
-        public LoginAction $loginAction
+        public LoginAction $loginAction,
+        public RecoverPasswordAction $recoverPasswordAction,
+        public ResetPasswordAction $resetPasswordAction,
+        public LogoutAction $logoutAction
     ) {}
 
     public function register(RegisterRequest $registerRequest): UserResource
@@ -29,17 +38,33 @@ class AuthController extends Controller
         return new UserResource($user);
     }
 
-    public function login(LoginRequest $loginRequest): JsonResponse
+    public function login(LoginRequest $loginRequest): LoginResource
     {
-        $this->loginAction->run($loginRequest->getEmail(), $loginRequest->getPassword());
+        $response = $this->loginAction->run($loginRequest->getEmail(), $loginRequest->getPassword());
 
-        return response()->json(['status' => 'success']);
+        return new LoginResource($response);
     }
 
     public function logout(): JsonResponse
     {
-        Auth::logout();
+        $this->logoutAction->run();
 
         return response()->json(['message' => 'User successfully logged out!!!']);
+    }
+
+    public function recover(RecoverPasswordRequest $recoverPasswordRequest): JsonResponse
+    {
+        $this->recoverPasswordAction->run($recoverPasswordRequest->getEmail());
+
+        return response()->json(['status' => 'success']);
+    }
+
+    public function reset(ResetPasswordRequest $resetPasswordRequest): JsonResponse
+    {
+        $dto = ResetPasswordDTO::fromRequest($resetPasswordRequest);
+
+        $this->resetPasswordAction->run($dto);
+
+        return response()->json(['status' => 'success']);
     }
 }

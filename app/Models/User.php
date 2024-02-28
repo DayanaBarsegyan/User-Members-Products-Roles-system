@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
+    use HasApiTokens, HasFactory, Notifiable;
+
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
@@ -21,8 +23,6 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Product::class);
     }
-
-    use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'users';
 

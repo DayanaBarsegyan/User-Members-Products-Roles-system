@@ -13,7 +13,6 @@ use App\Services\Action\members\UpdateAction;
 use App\Services\DTO\members\CreateRequestDTO;
 use App\Services\DTO\members\UpdateRequestDTO;
 use App\Http\Resources\member\MemberResourceCollection;
-use Illuminate\Http\JsonResponse;
 
 class MembersController extends Controller
 {

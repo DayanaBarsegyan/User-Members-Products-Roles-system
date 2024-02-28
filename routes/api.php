@@ -20,24 +20,26 @@ use App\Http\Controllers\ProductsController;
 Route::prefix('auth')->group(function (){
     Route::post('register', [AuthController::class, 'register'])->name('registration');
     Route::post('login', [AuthController::class, 'login'])->name('login');
-    Route::post('logout', [AuthController::class, 'logout'])->middleware('auth.basic');
+    Route::post('recover-password', [AuthController::class, 'recover']);
+    Route::post('reset-password', [AuthController::class, 'reset']);
+    Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
 });
 
-Route::prefix('members')->middleware('auth.basic')->group(function(){
+Route::prefix('members')->middleware('auth:api')->group(function(){
       Route::get("/",[MembersController::class, 'index']);
       Route::post("/",[MembersController::class, 'create']);
       Route::put("/",[MembersController::class, 'update']);
       Route::delete("/{id}",[MembersController::class, 'delete']);
 });
 
-Route::prefix('roles')->middleware('auth.basic')->group(function (){
+Route::prefix('roles')->middleware('auth:api')->group(function (){
     Route::get('/', [RolesController::class, 'index']);
     Route::post('/', [RolesController::class, 'create']);
     Route::put("/",[RolesController::class, 'update']);
     Route::delete('/{id}', [RolesController::class, 'delete']);
 });
 
-Route::prefix('products')->middleware('auth.basic')->group(function (){
+Route::prefix('products')->middleware('auth:api')->group(function (){
     Route::post('/', [ProductsController::class, 'create']);
     Route::delete('/{id}', [ProductsController::class, 'delete']);
     Route::put('/', [ProductsController::class, 'update']);
