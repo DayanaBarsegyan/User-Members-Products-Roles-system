@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
-use App\Repositories\user\UserWriteRepository;
-use App\Repositories\user\UserWriteRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\user\Read\UserReadRepository;
+use App\Repositories\user\Write\UserWriteRepository;
+use App\Repositories\user\Read\UserReadRepositoryInterface;
+use App\Repositories\user\Write\UserWriteRepositoryInterface;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -14,6 +16,7 @@ class UserServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(UserWriteRepositoryInterface::class, UserWriteRepository::class);
+        $this->app->bind(UserReadRepositoryInterface::class, UserReadRepository::class);
     }
 
     /**

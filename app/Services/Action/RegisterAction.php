@@ -3,8 +3,8 @@
 namespace App\Services\Action;
 
 use App\Models\User;
+use App\Repositories\user\Write\UserWriteRepositoryInterface;
 use App\Services\DTO\RegisterRequestDTO;
-use App\Repositories\user\UserWriteRepositoryInterface;
 
 class RegisterAction
 {

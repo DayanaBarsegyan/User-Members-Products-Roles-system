@@ -36,5 +36,4 @@ class UserProduct extends Model
     {
         $this->product_id = $id;
     }
-
 }
