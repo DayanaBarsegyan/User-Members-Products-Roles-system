@@ -23,6 +23,7 @@ Route::prefix('auth')->group(function (){
     Route::post('recover-password', [AuthController::class, 'recover']);
     Route::post('reset-password', [AuthController::class, 'reset']);
     Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
+    Route::post('refresh', [AuthController::class, 'refresh']);
 });
 
 Route::prefix('members')->middleware('auth:api')->group(function(){

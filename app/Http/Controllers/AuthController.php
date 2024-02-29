@@ -7,10 +7,12 @@ use App\Http\Requests\LoginRequest;
 use App\Services\Action\LoginAction;
 use App\Http\Resources\UserResource;
 use App\Services\Action\LogoutAction;
-use App\Http\Resources\LoginResource;
+use App\Http\Resources\TokenResource;
 use App\Services\DTO\ResetPasswordDTO;
 use App\Services\Action\RegisterAction;
 use App\Services\DTO\RegisterRequestDTO;
+use App\Http\Requests\RefreshTokenRequest;
+use App\Services\Action\RefreshTokenAction;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Services\Action\ResetPasswordAction;
 use App\Http\Requests\RecoverPasswordRequest;
@@ -26,7 +28,8 @@ class AuthController extends Controller
         public LoginAction $loginAction,
         public RecoverPasswordAction $recoverPasswordAction,
         public ResetPasswordAction $resetPasswordAction,
-        public LogoutAction $logoutAction
+        public LogoutAction $logoutAction,
+        public RefreshTokenAction $refreshTokenAction
     ) {}
 
     public function register(RegisterRequest $registerRequest): UserResource
@@ -38,11 +41,11 @@ class AuthController extends Controller
         return new UserResource($user);
     }
 
-    public function login(LoginRequest $loginRequest): LoginResource
+    public function login(LoginRequest $loginRequest): TokenResource
     {
         $response = $this->loginAction->run($loginRequest->getEmail(), $loginRequest->getPassword());
 
-        return new LoginResource($response);
+        return new TokenResource($response);
     }
 
     public function logout(): JsonResponse
@@ -66,5 +69,12 @@ class AuthController extends Controller
         $this->resetPasswordAction->run($dto);
 
         return response()->json(['status' => 'success']);
+    }
+
+    public function refresh(RefreshTokenRequest $refreshTokenRequest): TokenResource
+    {
+        $response = $this->refreshTokenAction->run($refreshTokenRequest->getToken());
+
+        return new TokenResource($response);
     }
 }
