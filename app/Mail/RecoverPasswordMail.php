@@ -13,11 +13,7 @@ class RecoverPasswordMail extends Mailable
     public function __construct(
         private string $randomToken
     ) {}
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
+
     public function build()
     {
         return $this->subject('Reset password')

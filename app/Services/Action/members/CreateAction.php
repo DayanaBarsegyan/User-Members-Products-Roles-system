@@ -15,9 +15,6 @@ class CreateAction
         private RoleCreateUseCase $roleCreateUseCase,
         private MembersWriteRepositoryInterface $membersWriteRepository
     ){}
-    /**
-     * @throws Exception
-     */
 
     public function run(CreateRequestDTO $dto):Member
     {

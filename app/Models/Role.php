@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Role extends Model
 {
+    use HasFactory;
+
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
@@ -18,8 +20,6 @@ class Role extends Model
     protected $fillable = [
         'role'
     ];
-
-    use HasFactory;
 
     public static function staticCreate(string $role, int $parentId): Role
     {

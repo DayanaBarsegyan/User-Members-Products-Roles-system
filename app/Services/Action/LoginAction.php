@@ -2,13 +2,14 @@
 
 namespace App\Services\Action;
 
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
 class LoginAction
 {
-    public function run(string $email, string $password):array
+    public function run(string $email, string $password):Response
     {
-        $response = Http::asForm()->post(env('PASSPORT_LOGIN_ENDPOINT'), [
+        return Http::asForm()->post(env('PASSPORT_LOGIN_ENDPOINT'), [
             'grant_type' => 'password',
             'client_id' => env('PASSPORT_CLIENT_ID'),
             'client_secret' => env('PASSPORT_CLIENT_SECRET'),
@@ -16,7 +17,5 @@ class LoginAction
             'password' => $password,
             'scope' => '*',
         ]);
-
-        return $response->json();
     }
 }

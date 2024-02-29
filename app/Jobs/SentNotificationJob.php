@@ -15,17 +15,11 @@ class SentNotificationJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     */
     public function __construct(
         protected User $user,
         protected string $randomToken
     ) {}
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
         Mail::to($this->user->email)->send(new RecoverPasswordMail($this->randomToken));

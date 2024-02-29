@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\products\CreateRequest;
 use App\Http\Requests\products\UpdateRequest;
-use App\Services\Action\products\IndexAction;
-use App\Services\Action\products\UpdateAction;
+use App\Http\Resources\product\ProductResourceCollection;
 use App\Services\Action\products\CreateAction;
 use App\Services\Action\products\DeleteAction;
+use App\Services\Action\products\IndexAction;
+use App\Services\Action\products\UpdateAction;
 use App\Services\DTO\products\CreateRequestDTO;
 use App\Services\DTO\products\UpdateRequestDTO;
-use App\Http\Resources\product\ProductResourceCollection;
 
 class ProductsController extends Controller
 {
